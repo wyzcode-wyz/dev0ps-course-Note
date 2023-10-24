@@ -251,6 +251,49 @@ networks:
   network:
     name: mongo-network
 ```
+..................................
+#postgres docker compose file.yml
+
+#create your own network
+
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - wellington-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: my-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 5050:80
+    depends_on:
+      - postgres
+    networks:
+      - wellington-network
+
+
+volumes:
+  postgres-data:
+
+networks:
+  wellington-network:
+
+
 
 This Docker Compose file defines two services, `mongodb` and `mongo-express`, just like your original Docker commands. It also specifies the necessary environment variables, ports, and network configurations. To use it, create a `docker-compose.yml` file in your project directory 
 and run `docker-compose up -d` to start the services.
