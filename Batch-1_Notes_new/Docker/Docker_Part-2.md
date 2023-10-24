@@ -248,7 +248,7 @@ services:
       - mongo-network
 
 networks:
-  mongo-network:
+  network:
     name: mongo-network
 ```
 
